@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <head th:insert="~{header/head :: head}"></head>
+  <link rel="stylesheet" media="screen, print" th:href="@{/ui/css/page-login-alt.css}">
+</head>
+<!-- BEGIN Body -->
+<body>
+
+<div class="blankpage-form-field">
+  <div class="page-logo m-0 w-100 align-items-center justify-content-center rounded border-bottom-left-radius-0 border-bottom-right-radius-0 px-4">
+    <a href="javascript:void(0)" class="page-logo-link press-scale-down d-flex align-items-center">
+      <img th:src="@{/ui/img/logo.png}" alt="SmartAdmin WebApp" aria-roledescription="logo">
+      <span class="page-logo-text mr-1" th:text="#{atoz.system}"></span>
+    </a>
+  </div>
+  <div class="card p-4 border-top-left-radius-0 border-top-right-radius-0 login-form">
+    <form th:action="@{/login.do}" method="post">
+      <div class="form-group">
+        <label class="form-label" for="username" th:text="#{employee.id}"></label>
+        <input type="text" class="form-control" id="memberId" name="memberId" placeholder="식별번호를 입력하세요" autofocus value="2">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="password" th:text="#{password}"></label>
+        <input type="password" class="form-control" id="memberPw" name="memberPw" placeholder="비밀번호를 입력하세요" value="2">
+      </div>
+      <button type="submit" class="btn btn-default btn-lg w-100" th:text="#{login}">로그인</button>
+    </form>
+  </div>
+</div>
+<video th:poster="@{/ui/img/clouds.png}" id="bgvid" playsinline autoplay muted loop>
+  <source th:src="@{/ui/media/video/cc.webm}" type="video/webm">
+  <source th:src="@{/ui/media/video/cc.mp4}" type="video/mp4">
+</video>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
+<script th:src="@{/ui/js/vendors.bundle.js}"></script>
+<script th:src="@{/ui/js/app.bundle.js}"></script>
+<!-- Page related scripts -->
+<script type="text/javascript">
+  $(function(){
+    $('button[type="submit"]').on('click', function(){
+      $('#login-form').submit();
+    });
+
+    $('.form-control').keydown(function(e){
+      if(e.keyCode === 13){
+        $('button[type="submit"]').click();
+      }
+    });
+  })
+
+  	////////////////// Toast //////////////////////
+    toastr.options = {
+        "closeButton": true, //닫기 버튼 여부
+        "debug": false, // 콘솔창 메세지 여부
+        "newestOnTop": false, //새로운 팝업창을 띄울 때 위로(true), 아래(false)
+        "progressBar": true, // 닫히기까지의 프로그래스바 표시
+        "positionClass": "toast-top-center", // 팝업창 위치
+        /* Top Right, Bottom Right, Bottom Left, Top Left, Top Full Width, Bottom Full Width, Top Center, Bottom Center, */
+        "preventDuplicates": false, // 중복실행 방지, false일 경우 여러번 실행 가능
+        "showDuration": "300",
+        "hideDuration": "100",
+        "timeOut": "3000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+   // toastr.error('error');// toastr.warning('warning');//  toastr.success('success');// toastr.info('info');
+	var queryString = window.location.search;
+    var params = new URLSearchParams(queryString);
+    var pval = params.get('msg');
+    //console.log('GET Parameter Value:', pval);
+	if(pval == 'level'){	toastr.success('이 페이지에 접근할 권한이 없습니다.');
+	}else if(pval =="error"){ toastr.error('로그인 정보(ID/PW)가 정확하지 않습니다.');
+	}else if(pval =="state"){ toastr.info('비승인 상태입니다.');
+	}else if(pval =="logout"){ toastr.success('로그아웃 하였습니다.');
+	}else if(pval =="login"){ toastr.error('이 페이지에 접근하려면 로그인이 필요합니다');
+	}
+
+
+</script>
+</body>
+<!-- END Body -->
+</html>

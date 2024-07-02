@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <head th:insert="~{header/head :: head}"></head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AtoZSystem</title>
+  <!--<link rel="icon" href="/sas/resources/images/atoz_logo_icon.png">-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+  <!--<link type="text/css" rel="stylesheet" th:href="@{/css/sas.css}" />
+  <link type="text/css" rel="stylesheet" th:href="@{/css/systemAdmin/company.css}" />-->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+
+<body style="padding: 20px; font-size: 14px;">
+<!-- Modal center -->
+<div class="modal fade" id="companyModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">
+          경 고 창
+          <small class="m-0 text-muted"></small>
+        </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true"><i class="fal fa-times"></i></span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p style="text-align: center;"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal center Large -->
+
+<form id="insert-company-form" method="post" th:action="@{/system/company/insertCompany.do}"
+      enctype="multipart/form-data">
+  <div class="fs-lg fw-300 p-4 bg-white border-faded rounded mb-1">
+    <table class="table table_input">
+      <colgroup>
+        <col style="width: 10%">
+        <col style="width: 40%">
+        <col style="width: 10%">
+        <col style="width: 10%">
+        <col style="width: 30%">
+      </colgroup>
+      <tbody>
+      <tr>
+        <th>NO
+        </th>
+        <td class="thead" id="detail-number">기업 등록</td>
+        <th colspan="2" class="thead">기업고유번호(C.P.N)</th>
+        <td class="table-input"><input type="text" class="form-control" name="com_number" maxlength="14"
+                                       placeholder="숫자만 입력해주세요." numberOnly required></td>
+      </tr>
+      <tr>
+        <th class="thead">기업명</th>
+        <td id="cpn-com-name" class="table-input"><input type="text" class="form-control" maxlength="20"
+                                                         name="com_name" required></td>
+        <th colspan="2" class="thead">대표자</th>
+        <td class="table-input"><input type="text" class="form-control company-code" maxlength="5"
+                                       name="ceo_name" required></td>
+      </tr>
+      <tr>
+        <th class="thead">연락처</th>
+        <td class="table-input"><input type="text" class="form-control" name="ceo_phone" maxlength="13"
+                                       required></td>
+        <th colspan="2" class="thead">E-Mail</th>
+        <td class="table-input"><input type="email" class="form-control company-code" name="ceo_email"
+                                       required></td>
+      </tr>
+      <tr>
+        <th class="thead">주소</th>
+        <td class="table-input"><input type="text" class="form-control address-input d-inline-block"
+                                       name="address1" maxlength="50" required>
+          <button type="button" class="btn btn-dark d-inline-block" id="address-search-btn">
+            <i class="ion ion-ios-search"></i> 주소 검색
+          </button>
+        </td>
+        <th class="thead" colspan="2">상세주소</th>
+        <td class="table-input"><input type="text" class="form-control" name="address2" maxlength="50"
+                                       required></td>
+
+      </tr>
+      <tr>
+        <th rowspan="3" class="table-input thead" style="vertical-align: middle; height:180px;">Logo</th>
+        <td rowspan="3" align="center" style="vertical-align: top;">
+          <div class="input-group">
+            <input class="form-control-file border" id="image-input" name="imgFile" type="file"
+                   required>
+            <div class="invalid-tooltip">Logo-필수 입력.</div>
+          </div>
+          <div id="image-container" style="height: 100px;">
+            <img id="company-ci" style="height:130px;margin-top:10px" alt=""
+                 th:src="@{/sas/image.do(fileName=noimg.png)}">
+          </div>
+        </td>
+        <th rowspan="2" class="thead">기업<br>관리자
+        </th>
+        <th class="thead">성명</th>
+        <td><input type="text" class="form-control" readonly="readonly" name="admin_name" maxlength="10"
+                   placeholder="기업 등록 후 진행가능."></td>
+      </tr>
+      <tr>
+        <th class="thead">아이디</th>
+        <td class="table-input"><input type="text" class="form-control" name="admin_id" maxlength="15"
+                                       readonly="readonly" placeholder="기업 등록 후 진행가능.">
+        </td>
+      </tr>
+      <tr>
+        <th colspan="2" class="thead">상태</th>
+        <td class="table-input">
+          <div class="demo">
+            <label class="switcher switcher-lg switcher-primary">
+              <input type="checkbox" class="switcher-input" checked name="used" value="1">
+              <span class="switcher-indicator">
+            <span class="switcher-yes"> 정상 </span>
+            <span class="switcher-no"> 중지 </span>
+              </span>
+            </label>
+          </div>
+        </td>
+      </tr>
+
+      </tbody>
+    </table>
+    <div class="text-right">
+      <button type="button" class="btn btn-primary" id="insert-company-btn">등록</button>
+    </div>
+  </div>
+</form>
+<script type="text/javascript" th:src="@{/js/company/company.js}"></script>
+</body>
+
+</html>

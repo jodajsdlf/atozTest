@@ -1,0 +1,63 @@
+spring.application.name=test01
+
+--- # Start
+
+--- # change port
+server:
+ port: 8080
+
+--- # Thymeleaf
+spring:
+ thymeleaf:
+  cache: false
+  prefix: classpath:/templates/
+  suffix: .html
+
+--- # mariadb
+spring:
+ datasource:
+  driver-class-name: org.mariadb.jdbc.Driver
+  url: jdbc:mariadb://localhost:3306/atoz
+  username: root
+  password: 0910
+
+--- #jpa
+spring:
+ jpa:
+  hibernate:
+   ddl-auto: update
+  show_sql : true
+ #properties:
+  #hibernate:
+   #format_sql: true
+
+--- #devTools
+spring:
+ devtools:
+  restart:
+   enabled: true    # 자동 리스타트 기능 활성화 (기본값: true)
+  livereload:
+   enabled: true    # 라이브 리로드 기능 활성화 (기본값: true)
+
+mybatis:
+ mapper-locations: classpath:mapper/**/*.xml
+ configuration:
+  log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # MyBatis 표준 로거 설정
+
+logging:
+ level:
+  root: info
+  com.example.demo: debug  # 패키지 수준 로깅 (필요에 따라 조정)
+  org.apache.ibatis: debug  # MyBatis SQL 로깅
+
+
+--- #국제화
+spring:
+ messages:
+  basename: messages/messages
+  encoding: UTF-8
+ http:
+  encoding:
+   charset: UTF-8
+   enabled: true
+   force: true

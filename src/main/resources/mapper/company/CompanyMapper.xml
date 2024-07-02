@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="atoz.company.mapper.CompanyMapper">
+   <select id="selectCompanyList" resultType="atoz.company.model.CompanyModel">
+       SELECT *
+       FROM `COMPANY_INFO_VIEW`
+       <!--WHERE 1=1
+       <if test="searchName != null">
+           <choose>
+               <when test="searchType == 'com_name'">
+                   AND com_name LIKE CONCAT('%', #{searchName}, '%')
+               </when>
+               <when test="searchType == 'com_number'">
+                   AND com_number LIKE CONCAT('%', #{searchName}, '%')
+               </when>
+               <when test="searchType == 'note'">
+                   AND note LIKE CONCAT('%', #{searchName}, '%')
+               </when>
+               <when test="searchType == used">
+                   <if test="searchName == '중지'">
+                       AND use = 0
+                   </if>
+                   <if test="searchName == '정상'">
+                       AND use = 1
+                   </if>
+               </when>
+           </choose>
+       </if>-->
+       ORDER BY num DESC
+       <!--LIMIT #{amount} OFFSET #{offset}-->
+   </select>
+
+    <select id="selectCompany" resultType="atoz.company.model.CompanyModel">
+        SELECT * from company_info_view WHERE num = #{num}
+    </select>
+
+    <insert id="insertComapny">
+        insert into company_info(com_number, com_name, com_ci, ceo_email, ceo_name, ceo_phone, address1, address2, used)
+        values(#{com_number, jdbcType=BIGINT}, #{com_name}, #{com_ci}, #{ceo_email}, #{ceo_name}, #{ceo_phone}, #{address1}, #{address2}, #{used})
+    </insert>
+
+    <update id="updateCompany">
+        update company_info
+        set com_number = #{com_number, jdbcType=BIGINT},
+        com_name = #{com_name},
+        ceo_name = #{ceo_name},
+        ceo_phone = #{ceo_phone},
+        ceo_email = #{ceo_email},
+        address1 = #{address1},
+        address2 = #{address2},
+        used = #{used}
+        where num = #{num}
+    </update>
+
+    <update id="updateCompanyAndImg">
+        update company_info
+        set com_number = #{com_number, jdbcType=BIGINT},
+        com_name = #{com_name},
+        ceo_name = #{ceo_name},
+        ceo_phone = #{ceo_phone},
+        ceo_email = #{ceo_email},
+        address1 = #{address1},
+        address2 = #{address2},
+        used = #{used},
+        com_ci = #{com_ci},
+        id = #{admin_id}
+        where num = #{num}
+    </update>
+
+    <delete id="deleteCompany">
+        delete from company_info where num=#{num}
+    </delete>
+
+
+</mapper>

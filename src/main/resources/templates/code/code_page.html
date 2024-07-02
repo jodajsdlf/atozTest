@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>AtoZSystem</title>
+	<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<head th:insert="~{header/head :: head}"></head>
+</head>
+<body class="mod-bg-1 mod-nav-link">
+<!-- BEGIN Page Wrapper -->
+<div class="page-wrapper">
+	<div class="page-inner">
+		<!-- BEGIN Left Aside -->
+		<!--<th:block th:insert="insert/system_menu :: system_menu"></th:block>-->
+		<!-- END Left Aside -->
+		<div class="page-content-wrapper">
+			<!-- BEGIN Page Header -->
+			<div th:insert="~{header/page_header :: header}"></div>
+			<!-- END Page Header -->
+			<!-- BEGIN Page Content -->
+			<!-- the #js-page-content id is needed for some plugins to initialize -->
+			<main id="js-page-content" role="main" class="page-content">
+				<div class="row">
+					<div class="col-xl-6 flex-grow-1">
+						<div id="" class="panel blue">
+							<div class="panel-hdr">
+								<h2 th:text="#{code.group}"></h2>
+								<div class="panel-toolbar">
+									<button type="button" class="btn btn-default btn-sm" id="code-group-btn">
+										<i class="fal fa-plus"></i> <span th:text="#{add.code.group}"></span>
+									</button>
+								</div>
+							</div>
+							<div class="panel-container show">
+								<div class="scrollY_table">
+									<table class="table table-bordered table-striped table-sm table-hover">
+										<colgroup>
+											<col style="width: 40%">
+											<col style="width: 20%">
+											<col style="width: *">
+										</colgroup>
+										<tbody>
+										<tr th:each="item : ${codeGroupList}" class="table-tr-container code-group-data cursor-pointer">
+											<td th:text="${item.codeGroupName}"></td>
+											<td class="group-num" th:text="${item.codeGroup}"></td>
+											<td th:text="${item.note}"></td>
+										</tr>
+										</tbody>
+									</table>
+								</div>
+
+								<div id="code-group-detail-field">
+									<form th:action="@{/system/code/updateCodeGroup.do}" method="post" id="update-code-group-form">
+										<table class="table detail-code-group text-center">
+											<thead>
+											<tr>
+												<th th:text="#{code.group.name}"></th>
+												<th th:text="#{group.code}"></th>
+												<th th:text="#{notes}"></th>
+											</tr>
+											</thead>
+											<tr>
+												<td><input class="form-control table-input-text" name="codeGroupName" type="text" id="detail-group-name" required="required"></td>
+												<td><input class="form-control table-input-text" name="codeGroup" readonly="readonly" type="text" id="detail-group-num"></td>
+												<td><input class="form-control table-input-text" name="note" type="text" id="detail-group-note"></td>
+											</tr>
+										</table>
+										<div class="text-right p-3">
+											<button type="button" class="btn btn-success" id="update-code-group-btn" th:text="#{edit}"></button>
+											<button type="button" class="btn btn-danger" id="delete-code-group-btn" th:text="#{delete}"></button>
+										</div>
+									</form>
+								</div>
+
+								<div id="code-group-create-field" style="display: none;">
+									<form th:action="@{/system/code/insertCodeGroup.do}" method="post" id="create-code-group-form">
+										<table class="table detail-code-group text-center">
+											<thead>
+											<tr>
+												<th th:text="#{code.group.name}"></th>
+												<th th:text="#{notes}"></th>
+											</tr>
+											</thead>
+											<tr class="table-tr-container">
+												<td class="table-input"><input class="table-input-text form-control" type="text" name="codeGroupName" maxlength="20" required="required"></td>
+												<td class="table-input"><input class="table-input-text form-control" type="text" name="note"></td>
+											</tr>
+										</table>
+										<div class="text-right p-3">
+											<button type="button" class="btn btn-primary" id="create-code-group-btn" th:text="#{save}"></button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-6 flex-grow-1">
+						<div class="panel blue space"></div>
+					</div>
+				</div>
+			</main>
+			<!-- this overlay is activated only when mobile menu is triggered -->
+			<div class="page-content-overlay" data-action="toggle" data-class="mobile-nav-on"></div>
+			<!-- END Page Content -->
+		</div>
+	</div>
+</div>
+<!-- END Page Wrapper -->
+<!--<script src="ui/js/app.bundle.js"></script>-->
+<script type="text/javascript">
+	var groupNum = [[${groupNum} ?: 0]];
+   var codeNum = [[${codeNum} ?: 0]];
+</script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript" th:src="@{/js/code/code.js}"></script>
+</body>
+</html>

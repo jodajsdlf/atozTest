@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Update Company</title>
+  <head th:insert="~{header/head :: head}"></head>
+</head>
+<body>
+<!-- Modal for company -->
+<div class="modal fade" id="companyModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">
+          경 고 창
+          <small th:text="${''}" class="m-0 text-muted"></small>
+        </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true"><i class="fal fa-times"></i></span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p style="text-align: center;"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary close" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for search ID -->
+<div class="modal fade" id="searchId" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">ID 검색</h1>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true"><i class="fal fa-times"></i></span>
+        </button>
+      </div>
+      <div class="modal-body" style="min-height: 100px;">
+        <div class="input-group mb-3">
+          <select class="form-select" id="category">
+            <option value="id">ID</option>
+            <option value="name">이름</option>
+          </select>
+          <input type="text" class="form-control" id="searchText" style="width: 50%;">
+          <button class="btn btn-outline-secondary" type="button" id="search-id-btn">검색</button>
+        </div>
+        <div style="padding-left: 5%; padding-right: 5%;">
+          <b>검색결과&nbsp;</b>
+          <span th:id="search-cnt" style="color: red;"></span>
+          <span>건</span>
+          <table class="table table-sm table-hover">
+            <thead style="text-align: center;" class="table-secondary">
+            <tr>
+              <th scope="col">이름</th>
+              <th scope="col" style="width: 60%;">ID</th>
+            </tr>
+            </thead>
+            <tbody class="table-group-divider" th:id="search-id-list">
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary close" data-dismiss="modal">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Form for updating company -->
+<form id="update-company-form" th:action="@{/system/company/updateCompany.do}" method="post" enctype="multipart/form-data">
+  <div class="fs-lg fw-300 p-4 bg-white border-faded rounded mb-1">
+    <table class="table table_input">
+      <colgroup>
+        <col style="width: 10%">
+        <col style="width: 40%">
+        <col style="width: 10%">
+        <col style="width: 10%">
+        <col style="width: 30%">
+      </colgroup>
+      <tbody>
+      <tr>
+        <th>NO</th>
+        <td class="thead" id="detail-number" th:text="${company.num}"></td>
+        <th colspan="2" class="thead">기업고유번호(C.P.N)</th>
+        <td class="table-input">
+          <input type="text" class="form-control" name="com_number" maxlength="14" th:value="${company.com_number}" required>
+        </td>
+      </tr>
+      <tr>
+        <th class="thead">기업명</th>
+        <td id="cpn-com-name" class="table-input">
+          <input type="text" class="form-control" maxlength="20" name="com_name" th:value="${company.com_name}" required>
+        </td>
+        <th colspan="2" class="thead">대표자</th>
+        <td class="table-input">
+          <input type="text" class="form-control company-code" maxlength="5" name="ceo_name" th:value="${company.ceo_name}" required>
+        </td>
+      </tr>
+      <tr>
+        <th class="thead">연락처</th>
+        <td class="table-input">
+          <input type="text" class="form-control" name="ceo_phone" maxlength="13" th:value="${company.ceo_phone}" required>
+        </td>
+        <th colspan="2" class="thead">E-Mail</th>
+        <td class="table-input">
+          <input type="email" class="form-control company-code" name="ceo_email" th:value="${company.ceo_email}" required>
+        </td>
+      </tr>
+      <tr>
+        <th class="thead">주소</th>
+        <td class="table-input">
+          <input type="text" class="form-control address-input d-inline-block" name="address1" maxlength="50" th:value="${company.address1}" required>
+          <button type="button" class="btn btn-dark d-inline-block" id="address-search-btn">
+            <i class="ion ion-ios-search"></i> 주소 검색
+          </button>
+        </td>
+        <th class="thead" colspan="2">상세주소</th>
+        <td class="table-input">
+          <input type="text" class="form-control" name="address2" maxlength="50" th:value="${company.address2}" required>
+        </td>
+      </tr>
+      <tr>
+        <th rowspan="5" class="table-input thead" style="vertical-align: middle;">Logo</th>
+        <td rowspan="5" align="center" style="vertical-align: top;">
+          <input class="form-control-file border" id="image-input" name="imgFile" type="file">
+          <div id="image-container" style="height: 100%;">
+            <img id="company-ci" style="height:150px;margin-top:10px" alt="" th:src="@{'/image.do?fileName=' + ${company.com_ci}}">
+          </div>
+        </td>
+        <th rowspan="2" class="thead">기업<br>관리자</th>
+        <th class="thead">성명</th>
+        <td>
+          <input type="text" class="form-control" name="admin_name" maxlength="10" th:value="${company.admin_name}" readonly>
+        </td>
+      </tr>
+      <tr>
+        <th class="thead">아이디</th>
+        <td class="table-input">
+          <input type="text" class="form-control address-input d-inline-block" name="admin_id" id="admin_id" maxlength="15" th:value="${company.admin_id}" readonly>
+          <button type="button" class="btn btn-dark d-inline-block" id="id-search-btn">
+            <i class="ion ion-ios-search"></i> 검색
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <th colspan="2" class="thead">상태</th>
+        <td class="table-input">
+          <div class="demo">
+            <label class="switcher switcher-lg switcher-primary">
+              <input type="checkbox" class="switcher-input" th:checked="${company.used == 1}" name="used" value="1">
+              <span class="switcher-indicator">
+            <span class="switcher-yes">정상</span>
+            <span class="switcher-no"> 중지</span>
+        </span>
+            </label>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <th colspan="2" class="thead">사용자수</th>
+        <td th:text="${company.userCnt}"></td>
+      </tr>
+      <tr>
+        <th colspan="2" class="thead">사용 비콘수</th>
+        <td th:text="${company.useBeaconCnt}"></td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="text-right">
+      <button type="submit" class="btn btn-success" id="update-company-btn">수정</button>
+      <button type="button" class="btn btn-danger" id="delete-company-btn">삭제</button>
+    </div>
+  </div>
+</form>
+<script type="text/javascript" th:src="@{/js/company/company.js}"></script>
+</body>
+</html>

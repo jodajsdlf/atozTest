@@ -1,0 +1,90 @@
+@charset utf-8;
+
+@font-face {
+  font-family: 'NanumSquare';
+  font-style: normal;
+  font-weight: 100;
+  src: url(./NanumSquareL.woff) format('woff'),
+       url(./NanumSquareL.otf) format('opentype');
+}
+@font-face {
+  font-family: 'NanumSquare';
+  font-style: normal;
+  font-weight: 300;
+  src: url(./NanumSquareR.woff) format('woff'),
+       url(./NanumSquareR.otf) format('opentype');
+}
+@font-face {
+  font-family: 'NanumSquare';
+  font-style: normal;
+  font-weight: 500;
+  src: url(./NanumSquareB.woff) format('woff'),
+       url(./NanumSquareB.otf) format('opentype');
+}
+
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 100;
+  src: url(./NotoSansKR-Thin.woff) format('woff'),
+       url(./NotoSansKR-Thin.otf) format('opentype');
+}
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 300;
+  src: url(./NotoSansKR-Light.woff) format('woff'),
+       url(./NotoSansKR-Light.otf) format('opentype');
+}
+@font-face {
+   font-family: 'Noto Sans KR';
+   font-style: normal;
+   font-weight: 400;
+   src: url(./NotoSansKR-Regular.woff) format('woff'),
+        url(./NotoSansKR-Regular.otf) format('opentype');
+ }
+@font-face {
+   font-family: 'Noto Sans KR';
+   font-style: normal;
+   font-weight: 500;
+   src: url(./NotoSansKR-Medium.woff) format('woff'),
+        url(./NotoSansKR-Medium.otf) format('opentype');
+ }
+@font-face {
+   font-family: 'Noto Sans KR';
+   font-style: normal;
+   font-weight: 700;
+   src: url(./NotoSansKR-Bold.woff) format('woff'),
+        url(./NotoSansKR-Bold.otf) format('opentype');
+ }
+@font-face {
+   font-family: 'Noto Sans KR';
+   font-style: normal;
+   font-weight: 900;
+   src: url(./NotoSansKR-Black.woff) format('woff'),
+        url(./NotoSansKR-Black.otf) format('opentype');
+ }
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url(./OpenSans-Regular.woff) format('woff'),
+       url(./OpenSans-Regular.otf) format('opentype');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  src: url(./OpenSans-Semibold.woff) format('woff'),
+       url(./OpenSans-Semibold.otf) format('opentype');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 800;
+  src: url(./OpenSans-ExtraBold.woff) format('woff'),
+       url(./OpenSans-ExtraBold.otf) format('opentype');
+}
+
+
